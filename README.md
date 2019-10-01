@@ -1,3 +1,0 @@
-# Bitfaragó
-
-## GD Betyárok
