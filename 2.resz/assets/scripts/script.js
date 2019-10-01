@@ -14,7 +14,18 @@ class Knight {
             row: startRow,
             col: startPos
         };
+        this.availableMoves = [];
+        getNextMoves();
         this.stepCount = 0;
+    }
+
+    getNextMoves() {
+        this.availableMoves = "wear";
+        const trieValues = [
+            { row: -2, col:-1},
+            { row: -2, col:1}
+        ];
+
     }
 }
 
