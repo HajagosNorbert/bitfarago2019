@@ -8,6 +8,16 @@ class Table {
 
 }
 
+class Knight {
+    constructor(startRow, StartCol){
+        this.currentPos = {
+            row: startRow,
+            col: startPos
+        };
+        this.stepCount = 0;
+    }
+}
+
 // IDE KELL STÍLUSOZÁS
 function drawCellContent(cellContent, color) {
     const size = Math.floor(100 / board.size)*5;
