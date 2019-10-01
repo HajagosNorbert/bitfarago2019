@@ -9,10 +9,10 @@ class Table {
 }
 
 class Knight {
-    constructor(startRow, StartCol){
+    constructor(startRow, startCol){
         this.currentPos = {
-            row: startRow,
-            col: startPos
+            col: startCol,
+            row: startRow
         };
         this.stepCount = 0;
     }
@@ -32,13 +32,16 @@ function drawCellContent(cellContent, color) {
     }
   }
 
-function switchColor(event) {
+  //Ló kezdő pozíció
+function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
     console.log(row, col);
-
-    //drawCellContent(cellContent, color);
+    knight = new Knight(row, col);
+    //getStartPos törlés
+    
+    cellContent.removeEventListener("clcik", getStartPos);
 }
 
 function createTable(matrix) {
@@ -54,7 +57,7 @@ function createTable(matrix) {
             const cellContent = document.createElement("div");
             cellContent.setAttribute("row", rowNumber);
             cellContent.setAttribute("col", colNumber);
-            cellContent.addEventListener("click", switchColor);
+            cellContent.addEventListener("click", getStartPos);
             drawCellContent(cellContent, color);
             cell.appendChild(cellContent);
             row.appendChild(cell);
@@ -77,4 +80,5 @@ function askForNewTable() {
 
 }
 let board;
+let knight;
 askForNewTable();
