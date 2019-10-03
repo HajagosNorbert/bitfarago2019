@@ -9,7 +9,7 @@ class Table {
 }
 
 class Knight {
-    constructor(startRow, startCol){
+    constructor(startRow, startCol) {
         this.currentPos = {
             col: startCol,
             row: startRow
@@ -21,12 +21,9 @@ class Knight {
 
     getNextMoves() {
         this.availableMoves = "wear";
-        const trieSteps = [
-            { row: -2, col:-1},
+        const trieSteps = [{ row: -2, col:-1},
             { row: -2, col:1},
             { row: 2, col:-1},
-            { row: 2, col:1},
-            { row: -1, col:-2},
             { row: 1, col:-2},
             { row: -1, col:2},
             { row: 1, col:2}
@@ -34,13 +31,12 @@ class Knight {
         const trieBoardPlaces = trieSteps.filter((cords) => {
             return cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
         });
-        
+
     }
 }
 
-
-  //Ló kezdő pozíció
-  function getStartPos(event) {
+// Ló kezdő pozíció
+function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
@@ -54,11 +50,21 @@ class Knight {
     divs.forEach(div => {
         div.removeEventListener("click", getStartPos);
     });
-    
+
 }
 
 function chessPattern(cellContent, colNumber) {
     cellContent.classList.add("black");
+    // szenvedésem
+    for (var i = 0; i < colNumber; i++) {
+        for (var j = 0; j < colNumber; j++) {
+            if (colNumber % 2) {
+                cellContent.classList.add('white');
+            } else {
+                cellContent.classList.add('black');
+            }
+        }
+    }
 }
 
 function createTable(matrix) {
@@ -71,9 +77,9 @@ function createTable(matrix) {
         rowData.forEach((color, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement("div");
-            chessPattern(cellContent, colNumber);
             cellContent.setAttribute("row", rowNumber);
             cellContent.setAttribute("col", colNumber);
+            chessPattern(cellContent, colNumber);
             cellContent.addEventListener("click", getStartPos);
             cell.appendChild(cellContent);
             row.appendChild(cell);
