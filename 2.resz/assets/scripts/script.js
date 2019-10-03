@@ -15,7 +15,7 @@ class Knight {
             row: startRow
         };
         this.availableMoves = [];
-      //  getNextMoves();
+        this.getNextMoves();
         this.stepCount = 0;
     }
 
@@ -32,7 +32,7 @@ class Knight {
             { row: 1, col:2}
         ];
         const trieBoardPlaces = trieSteps.filter((cords) => {
-            return outOfBound = cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
+            return cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
         });
         
     }
@@ -51,8 +51,9 @@ function drawCellContent(cellContent, color) {
         `color: white; background-color: black; border: 1px solid black; width: ${size}px; height: ${size}px;`);
     }
   }
+
   //Ló kezdő pozíció
-function getStartPos(event) {
+  function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
