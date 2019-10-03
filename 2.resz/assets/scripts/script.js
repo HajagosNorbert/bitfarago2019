@@ -9,38 +9,47 @@ class Table {
 }
 
 class Knight {
-    constructor(startRow, startCol){
+    constructor(startRow, startCol) {
         this.currentPos = {
-            col: startCol,
-            row: startRow
+            row: Number(startRow),
+            col: Number(startCol),
         };
+
         this.availableMoves = [];
         this.getNextMoves();
+        console.log("Hi");
         this.stepCount = 0;
     }
 
     getNextMoves() {
-        this.availableMoves = "wear";
         const trieSteps = [
-            { row: -2, col:-1},
-            { row: -2, col:1},
-            { row: 2, col:-1},
-            { row: 2, col:1},
-            { row: -1, col:-2},
-            { row: 1, col:-2},
-            { row: -1, col:2},
-            { row: 1, col:2}
+            { row: -2, col: -1 },
+            { row: -2, col: 1 },
+            { row: 2, col: -1 },
+            { row: 2, col: 1 },
+            { row: -1, col: -2 },
+            { row: 1, col: -2 },
+            { row: -1, col: 2 },
+            { row: 1, col: 2 }
         ];
         const trieBoardPlaces = trieSteps.filter((cords) => {
             return cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
         });
         
+        this.availableMoves = trieBoardPlaces.map(cords => {      
+            return {
+                row: Number(this.currentPos.row) + Number(cords.row),
+                col: Number(this.currentPos.col) + Number(cords.col)
+            }
+        });
+
+        
     }
 }
 
 
-  //Ló kezdő pozíció
-  function getStartPos(event) {
+//Ló kezdő pozíció
+function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
@@ -54,7 +63,7 @@ class Knight {
     divs.forEach(div => {
         div.removeEventListener("click", getStartPos);
     });
-    
+
 }
 
 function chessPattern(cellContent, colNumber) {
