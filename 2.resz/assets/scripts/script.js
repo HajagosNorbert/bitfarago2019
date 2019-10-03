@@ -38,19 +38,6 @@ class Knight {
     }
 }
 
-// IDE KELL STÍLUSOZÁS
-function drawCellContent(cellContent, color) {
-    const size = Math.floor(100 / board.size)*5;
-    if (color === 'white') {
-      cellContent.setAttribute(
-        `style`,
-        `color: black; background-color: white; border: 1px solid black; width: ${size}px; height: ${size}px;`);
-    } else {
-      cellContent.setAttribute(
-        `style`,
-        `color: white; background-color: black; border: 1px solid black; width: ${size}px; height: ${size}px;`);
-    }
-  }
 
   //Ló kezdő pozíció
   function getStartPos(event) {
