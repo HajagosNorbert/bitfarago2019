@@ -20,7 +20,12 @@ class Knight {
         console.log("Hi");
         this.stepCount = 0;
     }
-
+    stepto(newRow, newCol){
+        this.currentPos = {
+            col: newCol,
+            row: newRow
+        };
+    }
     getNextMoves() {
         const trieSteps = [
             { row: -2, col: -1 },
@@ -62,12 +67,30 @@ function getStartPos(event) {
     const divs = Array.from(document.getElementsByTagName("div"));
     divs.forEach(div => {
         div.removeEventListener("click", getStartPos);
+        div.addEventListener("click", clickStep);
     });
 
 }
+ //Egy Function Norbinak 
+    function clickStep(event) {
+        const cellContent = event.target;
+        const row = cellContent.attributes.row.value;
+        const col = cellContent.attributes.col.value;
+        knight.stepto(row, col);
+    }
 
 function chessPattern(cellContent, colNumber) {
     cellContent.classList.add("black");
+    // szenvedésem
+    for (var i = 0; i < colNumber; i++) {
+        for (var j = 0; j < colNumber; j++) {
+            if (colNumber % 2) {
+                cellContent.classList.add('white');
+            } else {
+                cellContent.classList.add('black');
+            }
+        }
+    }
 }
 
 function createTable(matrix) {
@@ -80,9 +103,9 @@ function createTable(matrix) {
         rowData.forEach((color, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement("div");
-            chessPattern(cellContent, colNumber);
             cellContent.setAttribute("row", rowNumber);
             cellContent.setAttribute("col", colNumber);
+            chessPattern(cellContent, colNumber);
             cellContent.addEventListener("click", getStartPos);
             cell.appendChild(cellContent);
             row.appendChild(cell);
