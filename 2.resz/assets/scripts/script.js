@@ -21,11 +21,20 @@ class Knight {
 
     getNextMoves() {
         this.availableMoves = "wear";
-        const trieValues = [
+        const trieSteps = [
             { row: -2, col:-1},
-            { row: -2, col:1}
+            { row: -2, col:1},
+            { row: 2, col:-1},
+            { row: 2, col:1},
+            { row: -1, col:-2},
+            { row: 1, col:-2},
+            { row: -1, col:2},
+            { row: 1, col:2}
         ];
-
+        const trieBoardPlaces = trieSteps.filter((cords) => {
+            return outOfBound = cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
+        });
+        
     }
 }
 
