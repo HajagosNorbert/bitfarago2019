@@ -60,6 +60,10 @@ function getStartPos(event) {
     
 }
 
+function chessPattern(cellContent, colNumber) {
+    cellContent.classList.add("black");
+}
+
 function createTable(matrix) {
     const table = document.createElement('table');
     table.setAttribute("id", "mainTable");
@@ -67,19 +71,19 @@ function createTable(matrix) {
 
     matrix.forEach((rowData, rowNumber) => {
         const row = document.createElement('tr');
-
         rowData.forEach((color, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement("div");
+            chessPattern(cellContent, colNumber);
             cellContent.setAttribute("row", rowNumber);
             cellContent.setAttribute("col", colNumber);
             cellContent.addEventListener("click", getStartPos);
-            drawCellContent(cellContent, color);
             cell.appendChild(cellContent);
             row.appendChild(cell);
         });
         tableBody.appendChild(row);
     });
+
     table.appendChild(tableBody);
     document.body.appendChild(table);
 }
@@ -88,12 +92,11 @@ function createTable(matrix) {
 function askForNewTable() {
     let matrixSize;
     do {
-        matrixSize = prompt("Sakktábla mérete (poitív szám):");
-    } while (isNaN(matrixSize) || matrixSize <= 0);
+        matrixSize = prompt("Sakktábla mérete (poitív szám, minimum 5):");
+    } while (isNaN(matrixSize) || matrixSize < 5);
     matrixSize = Math.ceil(Number(matrixSize));
     board = new Table(matrixSize);
     createTable(board.matrix);
-
 }
 let board;
 let knight;
