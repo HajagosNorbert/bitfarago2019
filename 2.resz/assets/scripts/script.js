@@ -18,7 +18,12 @@ class Knight {
         this.getNextMoves();
         this.stepCount = 0;
     }
-
+    stepto(newRow, newCol){
+        this.currentPos = {
+            col: newCol,
+            row: newRow
+        };
+    }
     getNextMoves() {
         this.availableMoves = "wear";
         const trieSteps = [
@@ -53,9 +58,16 @@ class Knight {
     const divs = Array.from(document.getElementsByTagName("div"));
     divs.forEach(div => {
         div.removeEventListener("click", getStartPos);
+        div.addEventListener("click", clickStep);
     });
-    
 }
+ //Egy Function Norbinak 
+    function clickStep(event) {
+        const cellContent = event.target;
+        const row = cellContent.attributes.row.value;
+        const col = cellContent.attributes.col.value;
+        knight.stepto(row, col);
+    }
 
 function chessPattern(cellContent, colNumber) {
     cellContent.classList.add("black");
