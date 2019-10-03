@@ -15,7 +15,7 @@ class Knight {
             row: startRow
         };
         this.availableMoves = [];
-        getNextMoves();
+      //  getNextMoves();
         this.stepCount = 0;
     }
 
@@ -51,7 +51,6 @@ function drawCellContent(cellContent, color) {
         `color: white; background-color: black; border: 1px solid black; width: ${size}px; height: ${size}px;`);
     }
   }
-
   //Ló kezdő pozíció
 function getStartPos(event) {
     const cellContent = event.target;
@@ -59,9 +58,15 @@ function getStartPos(event) {
     const col = cellContent.attributes.col.value;
     console.log(row, col);
     knight = new Knight(row, col);
-    //getStartPos törlés
+    //getStartPos törlés a divekről
+    // const table = document.getElementById("mainTable");
+    // const tbody = table.getElementsByTagName("tbody");
+    // const trs = table[0].getElementsByTagName("tr");
+    const divs = Array.from(document.getElementsByTagName("div"));
+    divs.forEach(div => {
+        div.removeEventListener("click", getStartPos);
+    });
     
-    cellContent.removeEventListener("clcik", getStartPos);
 }
 
 function createTable(matrix) {
