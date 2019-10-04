@@ -60,10 +60,7 @@ function getStartPos(event) {
     const col = cellContent.attributes.col.value;
     console.log(row, col);
     knight = new Knight(row, col);
-    //getStartPos törlés a divekről
-    // const table = document.getElementById("mainTable");
-    // const tbody = table.getElementsByTagName("tbody");
-    // const trs = table[0].getElementsByTagName("tr");
+    //getStartPos törlés a divekről és clickStep hozzáadása
     const divs = Array.from(document.getElementsByTagName("div"));
     divs.forEach(div => {
         div.removeEventListener("click", getStartPos);
@@ -71,13 +68,16 @@ function getStartPos(event) {
     });
 
 }
-//Egy Function Norbinak 
-function clickStep(event) {
-    const cellContent = event.target;
-    const row = cellContent.attributes.row.value;
-    const col = cellContent.attributes.col.value;
-    knight.stepto(row, col);
-}
+ //Egy Function Norbinak 
+    function clickStep(event) {
+        const cellContent = event.target;
+        const row = cellContent.attributes.row.value;
+        const col = cellContent.attributes.col.value;
+        knight.stepto(row, col);
+        // const queryRow = document.querySelector(`div[data-row= ${row}]`);
+        // const queryCol = document.querySelector(`div[data-col= ${col}]`);
+
+    }
 
 function chessPattern() {
     // Javítani!
