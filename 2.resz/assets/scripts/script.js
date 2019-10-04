@@ -20,7 +20,7 @@ class Knight {
         console.log("Hi");
         this.stepCount = 0;
     }
-    stepto(newRow, newCol){
+    stepto(newRow, newCol) {
         this.currentPos = {
             col: newCol,
             row: newRow
@@ -40,15 +40,15 @@ class Knight {
         const trieBoardPlaces = trieSteps.filter((cords) => {
             return cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
         });
-        
-        this.availableMoves = trieBoardPlaces.map(cords => {      
+
+        this.availableMoves = trieBoardPlaces.map(cords => {
             return {
                 row: Number(this.currentPos.row) + Number(cords.row),
                 col: Number(this.currentPos.col) + Number(cords.col)
             }
         });
 
-        
+
     }
 }
 
@@ -71,26 +71,27 @@ function getStartPos(event) {
     });
 
 }
- //Egy Function Norbinak 
-    function clickStep(event) {
-        const cellContent = event.target;
-        const row = cellContent.attributes.row.value;
-        const col = cellContent.attributes.col.value;
-        knight.stepto(row, col);
-    }
+//Egy Function Norbinak 
+function clickStep(event) {
+    const cellContent = event.target;
+    const row = cellContent.attributes.row.value;
+    const col = cellContent.attributes.col.value;
+    knight.stepto(row, col);
+}
 
-function chessPattern(cellContent, colNumber) {
-    cellContent.classList.add("black");
-    // szenvedésem
-    for (var i = 0; i < colNumber; i++) {
-        for (var j = 0; j < colNumber; j++) {
-            if (colNumber % 2) {
-                cellContent.classList.add('white');
-            } else {
-                cellContent.classList.add('black');
-            }
+function chessPattern() {
+    // Javítani!
+    const divek = Array.from(document.getElementsByTagName('div'));
+    console.log(divek);
+
+    divek.forEach(divek => {
+        if (divek % 2 == 0) {
+            div.classList.add('black');
+        } else {
+            divek.classList.add('white');
         }
-    }
+    })
+
 }
 
 function createTable(matrix) {
@@ -102,10 +103,9 @@ function createTable(matrix) {
         const row = document.createElement('tr');
         rowData.forEach((color, colNumber) => {
             const cell = document.createElement('td');
-            const cellContent = document.createElement("div");
+            const cellContent = document.createElement('div');
             cellContent.setAttribute("row", rowNumber);
             cellContent.setAttribute("col", colNumber);
-            chessPattern(cellContent, colNumber);
             cellContent.addEventListener("click", getStartPos);
             cell.appendChild(cellContent);
             row.appendChild(cell);
@@ -115,6 +115,7 @@ function createTable(matrix) {
 
     table.appendChild(tableBody);
     document.body.appendChild(table);
+    chessPattern();
 }
 
 
