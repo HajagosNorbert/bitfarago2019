@@ -17,7 +17,6 @@ class Knight {
 
         this.availableMoves = [];
         this.getNextMoves();
-        console.log("Hi");
         this.stepCount = 0;
     }
     stepto(newRow, newCol) {
@@ -25,6 +24,7 @@ class Knight {
             col: newCol,
             row: newRow
         };
+        this.getNextMoves();
     }
     getNextMoves() {
         const trieSteps = [
@@ -37,17 +37,17 @@ class Knight {
             { row: -1, col: 2 },
             { row: 1, col: 2 }
         ];
-        const trieBoardPlaces = trieSteps.filter((cords) => {
-            return cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size;
-        });
 
-        this.availableMoves = trieBoardPlaces.map(cords => {
+        const trieBoardPlaces = trieSteps.map((cords) => {
             return {
                 row: Number(this.currentPos.row) + Number(cords.row),
                 col: Number(this.currentPos.col) + Number(cords.col)
             }
         });
-
+              
+        this.availableMoves = trieBoardPlaces.filter((cords) => {
+            return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
+        });
 
     }
 }
