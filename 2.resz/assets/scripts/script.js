@@ -13,32 +13,35 @@ class Table {
 
 class Knight {
     constructor(startRow, startCol) {
+        this.stepCount = 0;
         this.currentPos = {
             row: Number(startRow),
             col: Number(startCol),
         };
-        board.matrix[row][col].visited = true;
-        //megváltoztatni a board.matrixban lévő dolgokat
         this.availableMoves = [];
         this.getNextMoves();
-        this.stepCount = 0;
+        board.matrix[this.currentPos.row][this.currentPos.col].visited = true;
+        board.matrix[this.currentPos.row][this.currentPos.col].stepCount= this.stepCount;
     }
-    stepto(newRow, newCol) {
+
+    stepTo(newRow, newCol) {
         let inAvailableMoves = false;
 
         this.availableMoves.forEach(x => {
-            if(x.row === newRow && x.col === newCol){
+            if (x.row == newRow && x.col == newCol) {
                 inAvailableMoves = true;
             }
         });
-        
-        if(inAvailableMoves === true){
-         this.currentPos = {
-            col: newCol,
-            row: newRow
-        };
-    }
-        this.getNextMoves();
+
+        if (inAvailableMoves) {
+            this.currentPos = {
+                row: newRow,
+                col: newCol
+            };
+            this.getNextMoves();
+            return true
+        }
+        return false
     }
     getNextMoves() {
         const trieSteps = [
@@ -63,6 +66,10 @@ class Knight {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
 
+        this.availableMoves = trieBoardPlaces.filter((cords) => {
+            return !board.matrix[this.currentPos.row][this.currentPos.col].visited;
+        });
+
     }
 }
 
@@ -85,7 +92,7 @@ function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
-    knight.stepto(row, col);
+    knight.stepTo(row, col);
     // const queryRow = document.querySelector(`div[data-row= ${row}]`);
     // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
