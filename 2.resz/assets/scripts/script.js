@@ -7,7 +7,7 @@ class Table {
             stepCount: 0,
             dangerZone: false,
             visited: false
-        }));
+        }));        
     }
 }
 
@@ -34,10 +34,8 @@ class Knight {
         });
 
         if (inAvailableMoves) {
-            this.currentPos = {
-                row: newRow,
-                col: newCol
-            };
+            this.currentPos.row = newRow;
+            this.currentPos.col = newCol;
             this.getNextMoves();
             return true
         }
@@ -66,10 +64,15 @@ class Knight {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
 
-        this.availableMoves = trieBoardPlaces.filter((cords) => {
-            return !board.matrix[this.currentPos.row][this.currentPos.col].visited;
+        this.availableMoves = this.availableMoves.filter((cords) => {
+            return !board.matrix[cords.row][cords.col].visited;
         });
+        console.log(this.availableMoves);
 
+        if(this.availableMoves.length === 0){
+            
+            alert("Beszorultál");
+        }
     }
 }
 
@@ -127,7 +130,7 @@ function createTable(matrix) {
 
     matrix.forEach((rowData, rowNumber) => {
         const row = document.createElement('tr');
-        rowData.forEach((apa, colNumber) => {
+        rowData.forEach((_apa, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement('div');
             cellContent.setAttribute("row", rowNumber);
@@ -149,10 +152,10 @@ function askForNewTable() {
     let matrixSize;
     do {
         matrixSize = prompt("Sakktábla mérete (pozitív egész, minimum 5):");
-        Math.round(matrixSize);
     } while (isNaN(matrixSize) || matrixSize < 5);
     matrixSize = Math.ceil(Number(matrixSize));
     board = new Table(matrixSize);
+    console.log("Itt a hiba ez a sor előtt", board.matrix);
     createTable(board.matrix);
 }
 
