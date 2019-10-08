@@ -7,7 +7,7 @@ class Table {
             stepCount: 0,
             dangerZone: false,
             visited: false
-        }));        
+        }));
     }
 }
 
@@ -23,7 +23,6 @@ class Knight {
         board.matrix[this.currentPos.row][this.currentPos.col].visited = true;
         board.matrix[this.currentPos.row][this.currentPos.col].stepCount= this.stepCount;
     }
-
     stepTo(newRow, newCol) {
         let inAvailableMoves = false;
 
@@ -70,7 +69,6 @@ class Knight {
         console.log(this.availableMoves);
 
         if(this.availableMoves.length === 0){
-            
             alert("Beszorultál");
         }
     }
@@ -90,7 +88,7 @@ function getStartPos(event) {
         div.addEventListener("click", clickStep);
     });
 }
-// Egy Function Norbinak 
+// Egy Function Norbinak
 function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
@@ -100,8 +98,8 @@ function clickStep(event) {
     // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
 
-
-function chessPattern() {
+// Kitörölhető
+/* function chessPattern() {
     const divek = Array.from(document.getElementsByTagName('div'));
 
     if (divek.length % 2 === 0) {
@@ -121,7 +119,7 @@ function chessPattern() {
             }
         }
     }
-}
+} */
 
 function createTable(matrix) {
     const table = document.createElement('table');
@@ -144,8 +142,6 @@ function createTable(matrix) {
 
     table.appendChild(tableBody);
     document.body.appendChild(table);
-
-    chessPattern();
 }
 
 function askForNewTable() {
