@@ -16,3 +16,11 @@ table {
 .white {
     background-color: white;
 }
+.done{
+    background-color: green;
+    color: black; 
+}
+.horse{
+    background-image: url("../assets/resources/knight.png");
+    background-size: cover;
+}

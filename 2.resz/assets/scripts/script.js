@@ -73,18 +73,23 @@ function getStartPos(event) {
         const row = cellContent.attributes.row.value;
         const col = cellContent.attributes.col.value;
         knight.stepto(row, col);
+        const divs = Array.from(document.getElementsByTagName("div"));
+        
     }
+    
 
 function chessPattern() {
     // Javítani!
     const divek = Array.from(document.getElementsByTagName('div'));
-    divek.forEach(divek => {
-        if (divek % 2 == 0) {
-            div.classList.add('black');
+    const divlength = divek.length;
+
+    for(var i = 0; i < divlength; i++) {
+        if ([i] % 2 === 0) {
+            divek[i].classList.add('black');
         } else {
-            divek.classList.add('white');
+            divek[i].classList.add('white');
         }
-    })
+    }
 
 }
 
@@ -95,7 +100,7 @@ function createTable(matrix) {
 
     matrix.forEach((rowData, rowNumber) => {
         const row = document.createElement('tr');
-        rowData.forEach((color, colNumber) => {
+        rowData.forEach((apa, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement('div');
             cellContent.setAttribute("row", rowNumber);
@@ -123,6 +128,7 @@ function askForNewTable() {
     board = new Table(matrixSize);
     createTable(board.matrix);
 }
+
 let board;
 let knight;
 askForNewTable();
