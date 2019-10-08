@@ -3,9 +3,12 @@ class Table {
         this.size = size;
         this.matrix = new Array(size);
         this.matrix.fill(new Array(size));
-        this.matrix.forEach(row => row.fill("táblarész"));
+        this.matrix.forEach(row => row.fill({
+            stepCount: 0,
+            dangerZone: false,
+            visited: false
+        }));
     }
-
 }
 
 class Knight {
@@ -14,7 +17,8 @@ class Knight {
             row: Number(startRow),
             col: Number(startCol),
         };
-
+        board.matrix[row][col].visited = true;
+        //megváltoztatni a board.matrixban lévő dolgokat
         this.availableMoves = [];
         this.getNextMoves();
         this.stepCount = 0;
@@ -54,7 +58,7 @@ class Knight {
                 col: Number(this.currentPos.col) + Number(cords.col)
             }
         });
-              
+
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
@@ -62,8 +66,7 @@ class Knight {
     }
 }
 
-
-//Ló kezdő pozíció
+// Ló kezdő pozíció
 function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
@@ -76,8 +79,8 @@ function getStartPos(event) {
         div.removeEventListener("click", getStartPos);
         div.addEventListener("click", clickStep);
     });
-
 }
+<<<<<<< HEAD
  //Egy Function Norbinak 
     function clickStep(event) {
         const cellContent = event.target;
@@ -85,21 +88,48 @@ function getStartPos(event) {
         const col = cellContent.attributes.col.value;
         knight.stepto(row, col);
     }
+=======
+// Egy Function Norbinak 
+function clickStep(event) {
+    const cellContent = event.target;
+    const row = cellContent.attributes.row.value;
+    const col = cellContent.attributes.col.value;
+    knight.stepto(row, col);
+    // const queryRow = document.querySelector(`div[data-row= ${row}]`);
+    // const queryCol = document.querySelector(`div[data-col= ${col}]`);
+}
+>>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 
 
 function chessPattern() {
-    // Javítani!
     const divek = Array.from(document.getElementsByTagName('div'));
+<<<<<<< HEAD
     const divlength = divek.length;
+=======
+>>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 
-    for(var i = 0; i < divlength; i++) {
-        if ([i] % 2 === 0) {
-            divek[i].classList.add('black');
-        } else {
-            divek[i].classList.add('white');
+    if (divek.length % 2 === 0) {
+        for (var i = 0; i < divek.length; i++) {
+            if (i % 2 === 0) {
+                divek[i].classList.add('white');
+            } else {
+                divek[i].classList.add('black');
+            }
         }
+<<<<<<< HEAD
     }
 
+=======
+    } else {
+        for (var i = 0; i < divek.length; i++) {
+            if (i % 2 === 0) {
+                divek[i].classList.add('white');
+            } else {
+                divek[i].classList.add('black');
+            }
+        }
+    }
+>>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 }
 
 function createTable(matrix) {
@@ -123,9 +153,9 @@ function createTable(matrix) {
 
     table.appendChild(tableBody);
     document.body.appendChild(table);
+
     chessPattern();
 }
-
 
 function askForNewTable() {
     let matrixSize;
@@ -140,4 +170,5 @@ function askForNewTable() {
 
 let board;
 let knight;
+
 askForNewTable();
