@@ -5,7 +5,6 @@ class Table {
         this.matrix.fill(new Array(size));
         this.matrix.forEach(row => row.fill("táblarész"));
     }
-
 }
 
 class Knight {
@@ -44,7 +43,7 @@ class Knight {
                 col: Number(this.currentPos.col) + Number(cords.col)
             }
         });
-              
+
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
@@ -52,8 +51,7 @@ class Knight {
     }
 }
 
-
-//Ló kezdő pozíció
+// Ló kezdő pozíció
 function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
@@ -66,41 +64,37 @@ function getStartPos(event) {
         div.removeEventListener("click", getStartPos);
         div.addEventListener("click", clickStep);
     });
-
 }
- //Egy Function Norbinak 
-    function clickStep(event) {
-        const cellContent = event.target;
-        const row = cellContent.attributes.row.value;
-        const col = cellContent.attributes.col.value;
-        knight.stepto(row, col);
-        // const queryRow = document.querySelector(`div[data-row= ${row}]`);
-        // const queryCol = document.querySelector(`div[data-col= ${col}]`);
-
-    }
+// Egy Function Norbinak 
+function clickStep(event) {
+    const cellContent = event.target;
+    const row = cellContent.attributes.row.value;
+    const col = cellContent.attributes.col.value;
+    knight.stepto(row, col);
+    // const queryRow = document.querySelector(`div[data-row= ${row}]`);
+    // const queryCol = document.querySelector(`div[data-col= ${col}]`);
+}
 
 function chessPattern() {
-    // Javítani!
     const divek = Array.from(document.getElementsByTagName('div'));
-    const divlength = divek.length;
-    console.log(divek);
 
-    for(var i = 0; i < divlength; i++) {
-        if ([i] % 2 === 0) {
-            divek[i].classList.add('black');
-        } else {
-            divek[i].classList.add('white');
+    if (divek.length % 2 === 0) {
+        for (var i = 0; i < divek.length; i++) {
+            if (i % 2 === 0) {
+                divek[i].classList.add('white');
+            } else {
+                divek[i].classList.add('black');
+            }
+        }
+    } else {
+        for (var i = 0; i < divek.length; i++) {
+            if (i % 2 === 0) {
+                divek[i].classList.add('white');
+            } else {
+                divek[i].classList.add('black');
+            }
         }
     }
-
-    /* divek.forEach(divek => {
-        if (divek % 2 == 0) {
-            divek[divlength-1].classList.add('black');
-        } else {
-            divek.classList.add('white');
-        }
-    }) */
-
 }
 
 function createTable(matrix) {
@@ -124,9 +118,9 @@ function createTable(matrix) {
 
     table.appendChild(tableBody);
     document.body.appendChild(table);
+
     chessPattern();
 }
-
 
 function askForNewTable() {
     let matrixSize;
@@ -140,4 +134,5 @@ function askForNewTable() {
 
 let board;
 let knight;
+
 askForNewTable();
