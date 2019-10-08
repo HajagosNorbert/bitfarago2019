@@ -3,7 +3,11 @@ class Table {
         this.size = size;
         this.matrix = new Array(size);
         this.matrix.fill(new Array(size));
-        this.matrix.forEach(row => row.fill("táblarész"));
+        this.matrix.forEach(row => row.fill({
+            stepCount: 0,
+            dangerZone: false,
+            visited: false
+        }));
     }
 
 }
@@ -14,7 +18,8 @@ class Knight {
             row: Number(startRow),
             col: Number(startCol),
         };
-
+        board.matrix[row][col].visited = true;
+        //megváltoztatni a board.matrixban lévő dolgokat
         this.availableMoves = [];
         this.getNextMoves();
         this.stepCount = 0;
