@@ -82,15 +82,24 @@ function getStartPos(event) {
 function chessPattern() {
     // Javítani!
     const divek = Array.from(document.getElementsByTagName('div'));
+    const divlength = divek.length;
     console.log(divek);
 
-    divek.forEach(divek => {
+    for(var i = 0; i < divlength; i++) {
+        if ([i] % 2 === 0) {
+            divek[i].classList.add('black');
+        } else {
+            divek[i].classList.add('white');
+        }
+    }
+
+    /* divek.forEach(divek => {
         if (divek % 2 == 0) {
-            div.classList.add('black');
+            divek[divlength-1].classList.add('black');
         } else {
             divek.classList.add('white');
         }
-    })
+    }) */
 
 }
 
@@ -101,7 +110,7 @@ function createTable(matrix) {
 
     matrix.forEach((rowData, rowNumber) => {
         const row = document.createElement('tr');
-        rowData.forEach((color, colNumber) => {
+        rowData.forEach((apa, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement('div');
             cellContent.setAttribute("row", rowNumber);
@@ -128,6 +137,7 @@ function askForNewTable() {
     board = new Table(matrixSize);
     createTable(board.matrix);
 }
+
 let board;
 let knight;
 askForNewTable();
