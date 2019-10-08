@@ -17,7 +17,6 @@ class Knight {
 
         this.availableMoves = [];
         this.getNextMoves();
-        console.log("Hi");
         this.stepCount = 0;
     }
     stepto(newRow, newCol) {
@@ -74,16 +73,11 @@ function getStartPos(event) {
         const row = cellContent.attributes.row.value;
         const col = cellContent.attributes.col.value;
         knight.stepto(row, col);
-        // const queryRow = document.querySelector(`div[data-row= ${row}]`);
-        // const queryCol = document.querySelector(`div[data-col= ${col}]`);
-
     }
 
 function chessPattern() {
     // Javítani!
     const divek = Array.from(document.getElementsByTagName('div'));
-    console.log(divek);
-
     divek.forEach(divek => {
         if (divek % 2 == 0) {
             div.classList.add('black');
@@ -122,7 +116,8 @@ function createTable(matrix) {
 function askForNewTable() {
     let matrixSize;
     do {
-        matrixSize = prompt("Sakktábla mérete (poitív szám, minimum 5):");
+        matrixSize = prompt("Sakktábla mérete (pozitív egész, minimum 5):");
+        Math.round(matrixSize);
     } while (isNaN(matrixSize) || matrixSize < 5);
     matrixSize = Math.ceil(Number(matrixSize));
     board = new Table(matrixSize);
