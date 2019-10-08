@@ -20,10 +20,20 @@ class Knight {
         this.stepCount = 0;
     }
     stepto(newRow, newCol) {
-        this.currentPos = {
+        let inAvailableMoves = false;
+
+        this.availableMoves.forEach(x => {
+            if(x.row === newRow && x.col === newCol){
+                inAvailableMoves = true;
+            }
+        });
+        
+        if(inAvailableMoves === true){
+         this.currentPos = {
             col: newCol,
             row: newRow
         };
+    }
         this.getNextMoves();
     }
     getNextMoves() {
@@ -74,10 +84,8 @@ function getStartPos(event) {
         const row = cellContent.attributes.row.value;
         const col = cellContent.attributes.col.value;
         knight.stepto(row, col);
-        const divs = Array.from(document.getElementsByTagName("div"));
-        
     }
-    
+
 
 function chessPattern() {
     // Javítani!
