@@ -90,45 +90,35 @@ function getStartPos(event) {
         div.removeEventListener("click", getStartPos);
         div.addEventListener("click", clickStep);
     });
+    addHorse(row, col);
+}
+function addHorse(row, col){
+    const divek = Array.from(document.getElementsByTagName('div'));
+    divek.forEach(element => {
+        element.classList.remove("horse");
+        let newRow = Number(element.getAttribute("row"));
+        let newCol = Number(element.getAttribute("col"));
+        if(row == newRow && col == newCol){
+            console.log("itt vagyok!");
+            element.classList.add("horse");
+        }
+    })
 }
 // Egy Function Norbinak
 function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
+    addHorse(row, col);
     const madeStep = knight.stepTo(row, col);
     if (madeStep){
         console.log(`Léptél ide row: ${row}, col: ${col}`);
+        
     } else {
         console.log("Nem léphetsz ide");
-        
+
     }
-    // const queryRow = document.querySelector(`div[data-row= ${row}]`);
-    // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
-
-// Kitörölhető
-/* function chessPattern() {
-    const divek = Array.from(document.getElementsByTagName('div'));
-
-    if (divek.length % 2 === 0) {
-        for (var i = 0; i < divek.length; i++) {
-            if (i % 2 === 0) {
-                divek[i].classList.add('white');
-            } else {
-                divek[i].classList.add('black');
-            }
-        }
-    } else {
-        for (var i = 0; i < divek.length; i++) {
-            if (i % 2 === 0) {
-                divek[i].classList.add('white');
-            } else {
-                divek[i].classList.add('black');
-            }
-        }
-    }
-} */
 
 function createTable(matrix) {
     const table = document.createElement('table');
