@@ -154,15 +154,19 @@ function addHorse(row, col){
     })
 }
 function clickStep(event) {
+    const oldRow = knight.currentPos.row;
+    const oldCol = knight.currentPos.col;
+    
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
+
+    
     const madeStep = knight.stepTo(row, col);
     if (madeStep){
         addHorse(row, col);
-        console.log(`Léptél ide row: ${row}, col: ${col}`);
-    } else {
-        console.log("Nem léphetsz ide");
+        drawStepCountOnField(oldRow, oldCol);
+        highlightAvailableFields();
     }
 }
 
@@ -198,6 +202,15 @@ function askForNewTable() {
     board = new Table(matrixSize);
     createTable(board.matrix);
 }
+
+function highlightAvailableFields(){
+    //A koordináták, amiknek megfelelő html tagjeit ki kell emelni benne vannak a knight.availableMoves-ban.   
+}
+
+function drawStepCountOnField(row, col){
+    //Bele kell tenni a board.matrix[row][col].stepCount -ot az annak megfelelő html tag-be, hogy látszódjon a felhasználónak a táblán
+}
+
 
 let secondsPassed = 0;
 let secCounter;
