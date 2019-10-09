@@ -21,6 +21,11 @@ class Knight {
         startRow = Number(startRow);
         startCol = Number(startCol);
         this.stepCount = 0;
+        this.couldStepToStart = false;
+        this.startPos = {
+            row: startRow,
+            col: startCol
+        };
         this.currentPos = {
             row: startRow,
             col: startCol
@@ -32,9 +37,35 @@ class Knight {
         this.getNextMoves();
     }
 
+
     isWon(){
-        
+        let won = true;
+        board.matrix.forEach(row => {
+            row.forEach(col => {
+                if (!col.visited){
+                    won = false;
+                }
+            })
+        });
+
+
+        if(this.availableMoves.length === 0 ){
+            const msgPlaceholder = document.getElementById("message");
+            if (won){
+                clearInterval(secCounter);
+                let msg = "Nyertél!";
+                if (this.couldStepToStart){
+                    msg += " És még vissza is léphetnél a kezdőpontra. Te aztán tudsz valamit! (mondjuk a megoldóalgoritmust?)";
+                }
+                msgPlaceholder.innerText = msg;
+            } else {
+                clearInterval(secCounter);
+                msgPlaceholder.innerText = "Beszorultál ;(";
+            }
+        }
+        return won;
     }
+
     stepTo(newRow, newCol) {
         let inAvailableMoves = false;
 
@@ -49,8 +80,10 @@ class Knight {
             this.currentPos.col = newCol;
             board.matrix[newRow][newCol].stepCount = this.stepCount;
             board.matrix[newRow][newCol].visited = true;
+            document.getElementById("steps").innerText = String(this.stepCount);
             this.stepCount++;
             this.getNextMoves();
+            this.isWon();
             return true;
         }
         return false;
@@ -75,23 +108,26 @@ class Knight {
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
+
+        this.couldStepToStart = false
+        this.availableMoves.forEach(x => {
+            if (x.row == this.startPos.row && x.col == this.startPos.col) {
+                this.couldStepToStart = true;
+            }
+        });
+
         this.availableMoves = this.availableMoves.filter((cords) => {
             return !board.matrix[cords.row][cords.col].visited;
         });
-
-
-        if(this.availableMoves.length === 0){
-            alert("Beszorultál");
-        }
     }
 }
 
 // Ló kezdő pozíció
 function getStartPos(event) {
+    document.getElementById("message").innerText = "Lépkedj"
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
-    console.log(`kezdés itt row: ${row},col: ${col}`);
     knight = new Knight(row, col);
     //getStartPos törlés a divekről és clickStep hozzáadása
     const divs = Array.from(document.getElementsByTagName("div"));
@@ -100,6 +136,11 @@ function getStartPos(event) {
         div.addEventListener("click", clickStep);
     });
     addHorse(row, col);
+    secCounter = setInterval(function(){
+        const display = document.getElementById("stopwatch");
+        display.innerText = secondsPassed;
+        secondsPassed++;
+    },1000);
 }
 function addHorse(row, col){
     const divek = Array.from(document.getElementsByTagName('div'));
@@ -108,7 +149,6 @@ function addHorse(row, col){
         let newRow = Number(element.getAttribute("row"));
         let newCol = Number(element.getAttribute("col"));
         if(row == newRow && col == newCol){
-            console.log("itt vagyok!");
             element.classList.add("horse");
         }
     })
@@ -159,6 +199,8 @@ function askForNewTable() {
     createTable(board.matrix);
 }
 
+let secondsPassed = 0;
+let secCounter;
 let board;
 let knight;
 
