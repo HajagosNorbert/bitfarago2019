@@ -1,6 +1,5 @@
 class Table {
     constructor(size) {
-        //A 2. szintű (col) array-ek mind ugyan arra az ojektumra mutatnak.
         this.size = size;
         this.matrix = [];
         for(let row = 0; row < size; row++){
@@ -33,6 +32,9 @@ class Knight {
         this.getNextMoves();
     }
 
+    isWon(){
+        
+    }
     stepTo(newRow, newCol) {
         let inAvailableMoves = false;
 
@@ -73,10 +75,10 @@ class Knight {
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
-
         this.availableMoves = this.availableMoves.filter((cords) => {
             return !board.matrix[cords.row][cords.col].visited;
         });
+
 
         if(this.availableMoves.length === 0){
             alert("Beszorultál");
@@ -115,9 +117,9 @@ function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
-    addHorse(row, col);
     const madeStep = knight.stepTo(row, col);
     if (madeStep){
+        addHorse(row, col);
         console.log(`Léptél ide row: ${row}, col: ${col}`);
     } else {
         console.log("Nem léphetsz ide");
