@@ -23,7 +23,9 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .white {
     background-color: white;
 }
-
+.wrongTry{
+    background-color: red;
+}
 .done{
     background-color: green;
     color: black;
