@@ -65,9 +65,12 @@ class Knight {
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
+
         this.availableMoves = this.availableMoves.filter((cords) => {
-            return !board.matrix[Number(cords.row)][Number(cords.col)].visited;
+            return !board.matrix[cords.row][cords.col].visited;
         });
+        console.log(this.availableMoves);
+
         if(this.availableMoves.length === 0){
             alert("Beszorultál");
         }
@@ -88,7 +91,7 @@ function getStartPos(event) {
         div.addEventListener("click", clickStep);
     });
 }
-// Egy Function Norbinak 
+// Egy Function Norbinak
 function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
@@ -104,8 +107,8 @@ function clickStep(event) {
     // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
 
-
-function chessPattern() {
+// Kitörölhető
+/* function chessPattern() {
     const divek = Array.from(document.getElementsByTagName('div'));
 
     if (divek.length % 2 === 0) {
@@ -125,7 +128,7 @@ function chessPattern() {
             }
         }
     }
-}
+} */
 
 function createTable(matrix) {
     const table = document.createElement('table');
@@ -148,8 +151,6 @@ function createTable(matrix) {
 
     table.appendChild(tableBody);
     document.body.appendChild(table);
-
-    chessPattern();
 }
 
 function askForNewTable() {
