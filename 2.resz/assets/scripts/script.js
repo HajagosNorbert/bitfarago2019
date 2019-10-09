@@ -2,33 +2,48 @@ class Table {
     constructor(size) {
         this.size = size;
         this.matrix = new Array(size);
-        this.matrix.fill(new Array(size));
-        this.matrix.forEach(row => row.fill({
+        this.matrix.fill(Array.from({length:size}, u => ({
+            visited: false,
             stepCount: 0,
-            dangerZone: false,
-            visited: false
-        }));
+            dangerZone: false
+        })));
     }
 }
 
 class Knight {
     constructor(startRow, startCol) {
-        this.currentPos = {
-            row: Number(startRow),
-            col: Number(startCol),
-        };
-        board.matrix[row][col].visited = true;
-        //megváltoztatni a board.matrixban lévő dolgokat
-        this.availableMoves = [];
-        this.getNextMoves();
+        startRow = Number(startRow);
+        startCol = Number(startCol);
         this.stepCount = 0;
-    }
-    stepto(newRow, newCol) {
         this.currentPos = {
-            col: newCol,
-            row: newRow
+            row: startRow,
+            col: startCol
         };
+        this.availableMoves = [];
+        board.matrix[startRow][startCol].visited= true;
+        board.matrix[startRow][startCol].stepCount= this.stepCount;
+        this.stepCount++;
         this.getNextMoves();
+    }
+
+    stepTo(newRow, newCol) {
+        let inAvailableMoves = false;
+
+        this.availableMoves.forEach(x => {
+            if (x.row == newRow && x.col == newCol) {
+                inAvailableMoves = true;
+            }
+        });
+
+        if (inAvailableMoves) {
+            this.currentPos.row = newRow;
+            this.currentPos.col = newCol;
+            board.matrix[newRow][newCol].stepCount = this.stepCount;
+            this.stepCount++;
+            this.getNextMoves();
+            return true;
+        }
+        return false;
     }
     getNextMoves() {
         const trieSteps = [
@@ -41,18 +56,21 @@ class Knight {
             { row: -1, col: 2 },
             { row: 1, col: 2 }
         ];
-
         const trieBoardPlaces = trieSteps.map((cords) => {
             return {
                 row: Number(this.currentPos.row) + Number(cords.row),
                 col: Number(this.currentPos.col) + Number(cords.col)
             }
         });
-
         this.availableMoves = trieBoardPlaces.filter((cords) => {
             return !(cords.row < 0 || cords.row >= board.size || cords.col < 0 || cords.col >= board.size);
         });
-
+        this.availableMoves = this.availableMoves.filter((cords) => {
+            return !board.matrix[Number(cords.row)][Number(cords.col)].visited;
+        });
+        if(this.availableMoves.length === 0){
+            alert("Beszorultál");
+        }
     }
 }
 
@@ -75,10 +93,17 @@ function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
-    knight.stepto(row, col);
+    const madeStep = knight.stepTo(row, col);
+    if (madeStep){
+        console.log(`Léptél ide row: ${row}, col: ${col}`);
+    } else {
+        console.log("Nem léphetsz ide");
+        
+    }
     // const queryRow = document.querySelector(`div[data-row= ${row}]`);
     // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
+
 
 function chessPattern() {
     const divek = Array.from(document.getElementsByTagName('div'));
@@ -109,7 +134,7 @@ function createTable(matrix) {
 
     matrix.forEach((rowData, rowNumber) => {
         const row = document.createElement('tr');
-        rowData.forEach((apa, colNumber) => {
+        rowData.forEach((_apa, colNumber) => {
             const cell = document.createElement('td');
             const cellContent = document.createElement('div');
             cellContent.setAttribute("row", rowNumber);
@@ -130,7 +155,7 @@ function createTable(matrix) {
 function askForNewTable() {
     let matrixSize;
     do {
-        matrixSize = prompt("Sakktábla mérete (poitív szám, minimum 5):");
+        matrixSize = prompt("Sakktábla mérete (pozitív egész, minimum 5):");
     } while (isNaN(matrixSize) || matrixSize < 5);
     matrixSize = Math.ceil(Number(matrixSize));
     board = new Table(matrixSize);
