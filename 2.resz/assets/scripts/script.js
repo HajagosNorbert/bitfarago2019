@@ -2,12 +2,18 @@ class Table {
     constructor(size) {
         //A 2. szintű (col) array-ek mind ugyan arra az ojektumra mutatnak.
         this.size = size;
-        this.matrix = new Array(size);
-        this.matrix.fill(Array.from({length:size}, u => ({
-            visited: false,
-            stepCount: 0,
-            dangerZone: false
-        })));
+        this.matrix = [];
+        for(let row = 0; row < size; row++){
+            
+            this.matrix.push([]);
+            for(let col = 0; col < size; col++){
+                this.matrix[row].push({
+                    visited: false,
+                    stepCount: 0,
+                    dangerZone: false
+                });
+            }
+        }   
     }
 }
 
@@ -40,6 +46,7 @@ class Knight {
             this.currentPos.row = newRow;
             this.currentPos.col = newCol;
             board.matrix[newRow][newCol].stepCount = this.stepCount;
+            board.matrix[newRow][newCol].visited = true;
             this.stepCount++;
             this.getNextMoves();
             return true;
@@ -70,7 +77,6 @@ class Knight {
         this.availableMoves = this.availableMoves.filter((cords) => {
             return !board.matrix[cords.row][cords.col].visited;
         });
-        console.log(this.availableMoves);
 
         if(this.availableMoves.length === 0){
             alert("Beszorultál");
@@ -83,7 +89,7 @@ function getStartPos(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
     const col = cellContent.attributes.col.value;
-    console.log(row, col);
+    console.log(`kezdés itt row: ${row},col: ${col}`);
     knight = new Knight(row, col);
     //getStartPos törlés a divekről és clickStep hozzáadása
     const divs = Array.from(document.getElementsByTagName("div"));
