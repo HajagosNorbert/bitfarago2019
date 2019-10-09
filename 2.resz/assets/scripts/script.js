@@ -1,5 +1,6 @@
 class Table {
     constructor(size) {
+        //A 2. szintű (col) array-ek mind ugyan arra az ojektumra mutatnak.
         this.size = size;
         this.matrix = new Array(size);
         this.matrix.fill(Array.from({length:size}, u => ({
@@ -91,7 +92,6 @@ function getStartPos(event) {
         div.addEventListener("click", clickStep);
     });
 }
-// Egy Function Norbinak
 function clickStep(event) {
     const cellContent = event.target;
     const row = cellContent.attributes.row.value;
@@ -103,8 +103,6 @@ function clickStep(event) {
         console.log("Nem léphetsz ide");
         
     }
-    // const queryRow = document.querySelector(`div[data-row= ${row}]`);
-    // const queryCol = document.querySelector(`div[data-col= ${col}]`);
 }
 
 // Kitörölhető
