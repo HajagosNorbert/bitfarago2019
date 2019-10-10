@@ -142,6 +142,7 @@ function getStartPos(event) {
         secondsPassed++;
     },1000);
 }
+
 function addHorse(row, col){
     const divek = Array.from(document.getElementsByTagName('div'));
     divek.forEach(element => {
@@ -205,7 +206,21 @@ function askForNewTable() {
 
 function highlightAvailableFields(){
     //A koordináták, amiknek megfelelő html tagjeit ki kell emelni benne vannak a knight.availableMoves-ban. 
-      
+    const divs = Array.from(document.getElementsByTagName('div'));
+    
+    divs.forEach(element => {
+        let newRow = Number(element.getAttribute("row"));
+        let newCol = Number(element.getAttribute("col"));
+        element.classList.remove('try');
+        element.classList.remove('wrongtry');
+        if (knight.availableMoves[newRow] == knight.availableMoves[element.row] && knight.availableMoves[newCol] == knight.availableMoves[element.col]) {
+            element.classList.add('try');
+        }
+        else {
+            element.classList.add('wrongtry');
+        }
+        
+    })
 }
 
 function drawStepCountOnField(row, col,){
