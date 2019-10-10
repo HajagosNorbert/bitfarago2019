@@ -80,7 +80,6 @@ function getStartPos(event) {
         div.addEventListener("click", clickStep);
     });
 }
-<<<<<<< HEAD
  //Egy Function Norbinak 
     function clickStep(event) {
         const cellContent = event.target;
@@ -88,25 +87,10 @@ function getStartPos(event) {
         const col = cellContent.attributes.col.value;
         knight.stepto(row, col);
     }
-=======
-// Egy Function Norbinak 
-function clickStep(event) {
-    const cellContent = event.target;
-    const row = cellContent.attributes.row.value;
-    const col = cellContent.attributes.col.value;
-    knight.stepto(row, col);
-    // const queryRow = document.querySelector(`div[data-row= ${row}]`);
-    // const queryCol = document.querySelector(`div[data-col= ${col}]`);
-}
->>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 
 
 function chessPattern() {
     const divek = Array.from(document.getElementsByTagName('div'));
-<<<<<<< HEAD
-    const divlength = divek.length;
-=======
->>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 
     if (divek.length % 2 === 0) {
         for (var i = 0; i < divek.length; i++) {
@@ -116,10 +100,6 @@ function chessPattern() {
                 divek[i].classList.add('black');
             }
         }
-<<<<<<< HEAD
-    }
-
-=======
     } else {
         for (var i = 0; i < divek.length; i++) {
             if (i % 2 === 0) {
@@ -129,7 +109,6 @@ function chessPattern() {
             }
         }
     }
->>>>>>> 33a8c8cb1880edcbae47f6090d9b66a6e8993552
 }
 
 function createTable(matrix) {
