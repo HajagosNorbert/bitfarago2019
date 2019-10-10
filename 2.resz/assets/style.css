@@ -1,7 +1,7 @@
 div {
     margin: 0px;
     height: 42px;
-    width: 42px;    
+    width: 42px;
     border: solid black 1px;
 }
 
@@ -9,16 +9,25 @@ table {
     height: 100%;
     width: 10%;
 }
+
+tr:nth-child(even) td:nth-child(even), tr:nth-child(odd) td:nth-child(odd) {
+    background: black;
+}
+tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+    background: white;
+}
+
 .black {
     background-color: black;
 }
-
 .white {
     background-color: white;
 }
+.wrongTry{
+    background-color: red;
+}
 .done{
-    background-color: green;
-    color: black; 
+    color:green;
 }
 .horse{
     background-image: url("../assets/resources/knight.png");
