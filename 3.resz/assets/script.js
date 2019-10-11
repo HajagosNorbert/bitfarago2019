@@ -1,7 +1,5 @@
 function start() {
-    const canvas = document.getElementById('cnvs');
-    const context = canvas.getContext('2d');
-
+    const canvas = document.getElementById('cnvs').getContext('2d');
     canvas.width = 500;
     canvas.height = 500;
 
@@ -11,4 +9,3 @@ function start() {
 function showFOV() {
 
 }
-

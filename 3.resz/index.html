@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,24 @@
     <title>Szenzorok</title>
     <link rel="stylesheet" href="assets/styles.css" />
 </head>
+
 <body>
 
     <div>
         Indítás:
         <button type="button" onclick="start()">Lekérés</button>
         <input type="checkbox" id="fov">Látómezők
+
+        <p>Szenzorok pozíciója:</p>
+        <ul>
+            <li>Szenzor #1 - <span id="sensor1pos"></span></li>
+            <li>Szenzor #2 - <span id="sensor2pos"></span></li>
+            <li>Szenzor #3 - <span id="sensor3pos"></span></li>
+        </ul>
+        
+        <p>Segédlet: <br>
+            Mozgatás a nyilak segítségével lehet.
+        </p>
     </div>
 
     <canvas id="cnvs"></canvas>
@@ -20,4 +33,5 @@
     <script src="assets/script.js"></script>
 
 </body>
+
 </html>
