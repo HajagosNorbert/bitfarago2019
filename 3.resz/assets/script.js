@@ -21,7 +21,14 @@ function showFOV() {
     console.log("Megnyomtad");
 
 }
-
+function drawDetectionArea(id, signal, angle){
+    if (signal){
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(sensors[id].posx, sensors[id].posy);
+        ctx.stroke();
+    } 
+}
 function drawSensPos(sensor) {
 
 }
