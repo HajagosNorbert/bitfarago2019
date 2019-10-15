@@ -4,6 +4,7 @@ function start() {
 
 function showFOV() {
     console.log("Megnyomtad");
+    let latomezoBool = false;
     
 }
 
