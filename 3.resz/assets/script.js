@@ -5,7 +5,7 @@ function getSensorInformation() {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
-                sensors.forEach(sonsor => {
+                sensors.forEach(sensor => {
                     drawSensPos(sensor);
                 });
             }
@@ -21,22 +21,18 @@ function showFOV() {
     console.log("Megnyomtad");
 
 }
+
 function drawSensPos(sensor) {
 
-    class Point {
-        constructor(xPos, yPos) {
-
-        }
-    }
-
-    function move(event) {
-        const x = event.clientX;
-        const y = event.clientY;
-
-        console.log(`Coords: ${x} ${y}`);
-    }
-
 }
+
+function move(event) {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    console.log(`Coords: ${x} ${y}`);
+}
+
 getSensorInformation();
 document.getElementById('fov').addEventListener("click", showFOV)
 let sensors;
