@@ -1,11 +1,18 @@
 function start() {
-    const canvas = document.getElementById('cnvs').getContext('2d');
-    canvas.width = 500;
-    canvas.height = 500;
-
-    document.getElementById('fov').addEventListener("click", showFOV)
+    
 }
 
 function showFOV() {
-
+    console.log("Megnyomtad");
+    
 }
+
+class Point{
+    constructor(xPos, yPos){
+        
+    }
+}
+
+document.getElementById('fov').addEventListener("click", showFOV)
+const canvas = document.getElementById('cnvs');
+const ctx = canvas.getContext('2d');
