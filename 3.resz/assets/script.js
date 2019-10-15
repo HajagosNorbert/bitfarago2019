@@ -5,7 +5,7 @@ function getSensorInformation(){
 			if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;       
-                sensors.forEach(sonsor => {
+                sensors.forEach(sensor => {
                     drawSensPos(sensor);
                 });     
 			}
