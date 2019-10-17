@@ -1,12 +1,9 @@
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 
-document.getElementById('fov').addEventListener("click", showFOV)
+const sens = ["'s1pos'", "'s2pos'", "'s3pos'", "'s4pos'"];
 
-const s1 = document.getElementById('sensor1pos');
-const s2 = document.getElementById('sensor2pos');
-const s3 = document.getElementById('sensor3pos');
-const s4 = document.getElementById('sensor4pos');
+document.getElementById('fov').addEventListener("click", showFOV)
 
 function getSensorInformation() {
     var xhr = new XMLHttpRequest();
@@ -16,7 +13,6 @@ function getSensorInformation() {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
                 console.log(sensors);
-                /* drawSensPos(sensors); */
                 sensors.forEach(sensor => {
                     drawSensPos(sensor);
                 });
@@ -33,7 +29,6 @@ function getSensorInformation() {
 function showFOV() {
     console.log('Megnyomtad');
 }
-
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
         const sensor = sensors[id];
@@ -60,25 +55,22 @@ function drawSensPos(sensor) {
     ctx.stroke();
     //ctx.rotate(a);
     ctx.restore();
-
-    setSensorPos(x, y);
 }
 
-function setSensorPos(x, y) {
-
+function writePosInformations(x, y) {
+    for (var i in sens) {
+        document.getElementById(i).innerText = "teszt";
+    }
 }
 
 let moveGlobalx = 0;
 let moveGlobaly = 0;
-
 function move(event) {
     const area = canvas.getBoundingClientRect();
     moveGlobalx = event.clientX - area.left;
     moveGlobaly = event.clientY - area.top;
-    // console.log(`Coords: ${moveGlobalx} ${moveGlobaly}`);
     postMove();
 }
-
 function postMove() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -87,7 +79,7 @@ function postMove() {
                 const response = JSON.parse(this.responseText);
                 console.log(response)
                 response.data.forEach(cameraData => {
-                    const angle = (Math.PI / 180)*cameraData.angle;
+                    const angle = (Math.PI / 180) * cameraData.angle;
                     drawDetectionArea(cameraData.id, cameraData.signal, angle)
                 });
             }
