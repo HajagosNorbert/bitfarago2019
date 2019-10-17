@@ -16,10 +16,10 @@ function getSensorInformation() {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
                 console.log(sensors);
-                drawSensPos(sensors);
-                /* sensors.forEach(sensor => {
+                /* drawSensPos(sensors); */
+                sensors.forEach(sensor => {
                     drawSensPos(sensor);
-                }); */
+                });
             }
         }
     };
@@ -43,24 +43,22 @@ function drawDetectionArea(id, signal, angle) {
     }
 }
 
-function drawSensPos(sensors) {
-    for (var i = 0; i < sensors.length; i++) {
-        x = sensors[i].posx;
-        y = sensors[i].posy;
-        a = sensors[i].angle;
+function drawSensPos(sensor) {
+    x = sensor.posx;
+    y = sensor.posy;
+    a = sensor.angle;
 
-        console.log(`${x} ${y} ${a}`);
+    console.log(`${x} ${y} ${a}`);
 
-        ctx.fillStyle = "#de1d1d";
-        ctx.fillRect(x, y, 32, 32);
-
-        ctx.rotate(a);
-        ctx.restore();
-    }
+    ctx.fillStyle = "#de1d1d";
+    //ctx.fillRect(x, y, 32, 32);
+    //ctx.rotate(a);
+    ctx.restore();
 }
 
 let moveGlobalx = 0;
 let moveGlobaly = 0;
+
 function move(event) {
     const area = canvas.getBoundingClientRect();
     moveGlobalx = event.clientX - area.left;
