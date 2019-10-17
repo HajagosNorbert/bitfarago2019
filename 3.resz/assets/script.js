@@ -32,15 +32,18 @@ function getSensorInformation() {
 
 function showFOV() {
     console.log('Megnyomtad');
-    drawDetectionArea(1, true, 40);
 }
 
-function drawDetectionArea(id, signal, x, y, angle) {
+function drawDetectionArea(id, signal, angle) {
     if (signal) {
+        const sensor = sensors[id];
+        ctx.fillStyle = "#de1d1d";
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(sensors[id].posx, sensors[id].posy);
+        ctx.moveTo(sensor.posx, sensor.posy);
+        //This is line isn't working as intended.
+        //ctx.arc(sensor.posx, sensor.posy, 400, sensor.angle + angle, Math.PI/180);
         ctx.stroke();
+        ctx.restore();
     }
 }
 
@@ -72,7 +75,7 @@ function move(event) {
     const area = canvas.getBoundingClientRect();
     moveGlobalx = event.clientX - area.left;
     moveGlobaly = event.clientY - area.top;
-    console.log(`Coords: ${moveGlobalx} ${moveGlobaly}`);
+    // console.log(`Coords: ${moveGlobalx} ${moveGlobaly}`);
     postMove();
 }
 
@@ -83,7 +86,10 @@ function postMove() {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 console.log(response)
-                drawDetectionArea(response.id, response.signal, response.angle);
+                response.data.forEach(cameraData => {
+                    const angle = (Math.PI / 180)*cameraData.angle;
+                    drawDetectionArea(cameraData.id, cameraData.signal, angle)
+                });
             }
         }
     };
