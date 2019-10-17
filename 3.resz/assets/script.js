@@ -31,13 +31,14 @@ function getSensorInformation() {
 }
 
 function showFOV() {
-    console.log("Megnyomtad");
+    console.log('Megnyomtad');
+    drawDetectionArea(1, true, 40);
 }
 
-function drawDetectionArea(id, signal, angle) {
+function drawDetectionArea(id, signal, x, y, angle) {
     if (signal) {
         ctx.beginPath();
-        ctx.moveTo(0, 0);
+        ctx.moveTo(x, y);
         ctx.lineTo(sensors[id].posx, sensors[id].posy);
         ctx.stroke();
     }
@@ -51,9 +52,17 @@ function drawSensPos(sensor) {
     console.log(`${x} ${y} ${a}`);
 
     ctx.fillStyle = "#de1d1d";
-    //ctx.fillRect(x, y, 32, 32);
+    ctx.beginPath();
+    ctx.arc(x, y, 32, 0, 2 * Math.PI);
+    ctx.stroke();
     //ctx.rotate(a);
     ctx.restore();
+
+    setSensorPos(x, y);
+}
+
+function setSensorPos(x, y) {
+
 }
 
 let moveGlobalx = 0;
