@@ -1,7 +1,7 @@
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 
-const sens = ["s1pos", "s2pos", "s3pos", "s4pos"];
+const senPos = ["s1pos", "s2pos", "s3pos", "s4pos"];
 
 document.getElementById('fov').addEventListener("click", showFOV)
 
@@ -28,10 +28,11 @@ function getSensorInformation() {
 
 function showFOV() {
     console.log('Megnyomtad');
+
 }
+
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
-        
         const sensor = sensors[id];
         ctx.fillStyle = "#de1d1d";
         const r = 400;
@@ -62,13 +63,12 @@ function drawDetectionArea(id, signal, angle) {
         ctx.fillStyle = "black";
     }
 }
-
 function writeSensPos(sensor) {
     id = sensor.ID;
     x = sensor.posx;
     y = sensor.posy;
 
-    document.getElementById(sens[id]).innerText = `X: ${x} Y: ${y}`;
+    document.getElementById(senPos[id]).innerText = `X: ${x} Y: ${y}`;
 }
 function drawSensPos(sensor) {
     x = sensor.posx;
@@ -112,7 +112,7 @@ function postMove() {
         version: '1',
         posx: `${moveGlobalx}`,
         posy: `${moveGlobaly}`
-        
+
     }));
 }
 function  redrawCanvas(){
