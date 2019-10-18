@@ -12,7 +12,6 @@ function getSensorInformation() {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
-                console.log(sensors);
                 sensors.forEach(sensor => {
                     drawSensPos(sensor);
                     writeSensPos(sensor);
@@ -34,29 +33,33 @@ function drawDetectionArea(id, signal, angle) {
     if (signal) {
         
         const sensor = sensors[id];
-        console.log(sensor);
         ctx.fillStyle = "#de1d1d";
         const r = 400;
         const errorValue = 2 * Math.PI / 180;
 
-        ctx.beginPath();
-        ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
-        ctx.stroke();
-        ctx.restore();
+        // ctx.beginPath();
+        // ctx.moveTo(sensor.posx, sensor.posy);
+        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
+        // ctx.stroke();
+        // ctx.restore();
 
-        ctx.beginPath();
-        ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
-        ctx.stroke();
-        ctx.restore();
+        // ctx.beginPath();
+        // ctx.moveTo(sensor.posx, sensor.posy);
+        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
+        // ctx.stroke();
+        // ctx.restore();
 
+        ctx.strokeStyle = "rgba(98, 252, 178, 0.3)";
+        ctx.fillStyle = "rgba(98, 252, 178, 0.3)";
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
         //shity line
-        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, 2*errorValue);
+        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue,);
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
     }
 }
 
@@ -72,13 +75,10 @@ function drawSensPos(sensor) {
     y = sensor.posy;
     a = sensor.angle;
     
-    console.log(`${x} ${y} ${a}`);
-    
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, 2 * Math.PI);
     ctx.stroke();
-    //ctx.rotate(a);
     ctx.restore();
 }
 
@@ -97,10 +97,10 @@ function postMove() {
         if (this.readyState == 4 && this.status == 200) {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
-                console.log(response)
                 response.data.forEach(cameraData => {
                     const angle = (Math.PI / 180) * cameraData.angle;
-                    drawDetectionArea(cameraData.id, cameraData.signal, angle)
+                    drawDetectionArea(cameraData.id, cameraData.signal, angle);
+                    
                 });
             }
         }
@@ -115,19 +115,26 @@ function postMove() {
         
     }));
 }
-function redrawCanvas(){
+function  redrawCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawRedPoint();
     sensors.forEach(s => drawSensPos(s));
+    drawRedPoint();
 }
 
 function drawRedPoint(){
-    ctx.beginPath();
-    ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.restore();
+    setTimeout(function(){
+        ctx.beginPath();
+        ctx.strokeStyle = "rgb(255,0,0)";
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
+    },0);
+    
 }
-postMove();
 getSensorInformation();
 
 let sensors;
