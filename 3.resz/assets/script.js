@@ -1,7 +1,7 @@
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 
-const sens = ["s1pos", "s2pos", "s3pos", "s4pos"];
+const senPos = ["s1pos", "s2pos", "s3pos", "s4pos"];
 
 document.getElementById('fov').addEventListener("click", showFOV)
 
@@ -29,38 +29,38 @@ function getSensorInformation() {
 
 function showFOV() {
     console.log('Megnyomtad');
+
 }
+
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
-        
         const sensor = sensors[id];
         console.log(sensor);
         ctx.fillStyle = "#de1d1d";
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
         const r = 400;
-        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle), sensor.posy + r*Math.sin(sensor.anglerad + angle));
+        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle), sensor.posy + r * Math.sin(sensor.anglerad + angle));
         //This is line isn't working as intended.
-        ctx.arc(sensor.posx, sensor.posy, 90, sensor.angle + angle, Math.PI * 180);
+        //ctx.arc(sensor.posx, sensor.posy, 90, sensor.angle + angle, Math.PI * 180);
         ctx.stroke();
         ctx.restore();
     }
 }
-
 function writeSensPos(sensor) {
     id = sensor.ID;
     x = sensor.posx;
     y = sensor.posy;
 
-    document.getElementById(sens[id]).innerText = `X: ${x} Y: ${y}`;
+    document.getElementById(senPos[id]).innerText = `X: ${x} Y: ${y}`;
 }
 function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
     a = sensor.angle;
-    
+
     console.log(`${x} ${y} ${a}`);
-    
+
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, 2 * Math.PI);
@@ -99,16 +99,17 @@ function postMove() {
         version: '1',
         posx: `${moveGlobalx}`,
         posy: `${moveGlobaly}`
-        
+
     }));
 }
-function redrawCanvas(){
+
+function redrawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawRedPoint();
     sensors.forEach(s => drawSensPos(s));
 }
 
-function drawRedPoint(){
+function drawRedPoint() {
     ctx.beginPath();
     ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
     ctx.stroke();
