@@ -57,7 +57,7 @@ function drawSensPos(sensor) {
     
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
-    ctx.arc(x, y, 32, 0, 2 * Math.PI);
+    ctx.arc(x, y, 15, 0, 2 * Math.PI);
     ctx.stroke();
     //ctx.rotate(a);
     ctx.restore();
@@ -76,6 +76,7 @@ function move(event) {
     moveGlobalx = event.clientX - area.left;
     moveGlobaly = event.clientY - area.top;
     postMove();
+    drawRedPoint();
 }
 function postMove() {
     var xhr = new XMLHttpRequest();
@@ -101,7 +102,12 @@ function postMove() {
         
     }));
 }
-
+function drawRedPoint(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+}
 postMove();
 getSensorInformation();
 
