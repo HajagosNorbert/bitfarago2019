@@ -17,9 +17,6 @@ function getSensorInformation() {
                 sensors = response.data;
                 console.log(sensors);
                 drawSensPos(sensors);
-                /* sensors.forEach(sensor => {
-                    drawSensPos(sensor);
-                }); */
             }
         }
     };
@@ -52,7 +49,8 @@ function drawSensPos(sensors) {
         console.log(`${x} ${y} ${a}`);
 
         ctx.fillStyle = "#de1d1d";
-        ctx.fillRect(x, y, 32, 32);
+        //x, y, radius, 0 hogy teljes kört rajzoljon
+        ctx.arc(x, y, 40, 0, 2 * Math.PI);
 
         ctx.rotate(a);
         ctx.restore();
@@ -90,7 +88,13 @@ function postMove() {
 
     }));
 }
+function drawRedPoint(){
+    ctx.beginPath();
+    ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+}
 
+drawRedPoint();
 postMove();
 getSensorInformation();
 
