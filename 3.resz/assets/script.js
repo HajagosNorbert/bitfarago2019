@@ -1,7 +1,7 @@
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 
-const sens = ["'s1pos'", "'s2pos'", "'s3pos'", "'s4pos'"];
+const sens = ["s1pos", "s2pos", "s3pos", "s4pos"];
 
 document.getElementById('fov').addEventListener("click", showFOV)
 
@@ -15,6 +15,7 @@ function getSensorInformation() {
                 console.log(sensors);
                 sensors.forEach(sensor => {
                     drawSensPos(sensor);
+                    writeSensPos(sensor);
                 });
             }
         }
@@ -59,6 +60,13 @@ function drawDetectionArea(id, signal, angle) {
     }
 }
 
+function writeSensPos(sensor) {
+    id = sensor.ID;
+    x = sensor.posx;
+    y = sensor.posy;
+
+    document.getElementById(sens[id]).innerText = `X: ${x} Y: ${y}`;
+}
 function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
@@ -72,12 +80,6 @@ function drawSensPos(sensor) {
     ctx.stroke();
     //ctx.rotate(a);
     ctx.restore();
-}
-
-function writePosInformations(x, y) {
-    for (var i in sens) {
-        document.getElementById(i).innerText = "teszt";
-    }
 }
 
 let moveGlobalx = 0;
