@@ -45,9 +45,7 @@ function drawDetectionArea(id, signal, angle) {
         ctx.restore();
     }
 }
-function redrawCanvas(){
-    
-}
+
 function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
@@ -76,7 +74,7 @@ function move(event) {
     moveGlobalx = event.clientX - area.left;
     moveGlobaly = event.clientY - area.top;
     postMove();
-    drawRedPoint();
+    redrawCanvas();
 }
 function postMove() {
     var xhr = new XMLHttpRequest();
@@ -102,11 +100,17 @@ function postMove() {
         
     }));
 }
-function drawRedPoint(){
+function redrawCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawRedPoint();
+    sensors.forEach(s => drawSensPos(s));
+}
+
+function drawRedPoint(){
     ctx.beginPath();
     ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
     ctx.stroke();
+    ctx.restore();
 }
 postMove();
 getSensorInformation();
