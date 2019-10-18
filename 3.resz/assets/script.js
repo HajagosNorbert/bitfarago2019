@@ -33,30 +33,35 @@ function showFOV() {
 
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
+        const sensor = sensors[id];
+        ctx.fillStyle = "#de1d1d";
         const r = 400;
         const sensor = sensors[id];
         const errorValue = 2 * Math.PI / 180;
 
-        ctx.fillStyle = "#de1d1d";
+        // ctx.beginPath();
+        // ctx.moveTo(sensor.posx, sensor.posy);
+        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
+        // ctx.stroke();
+        // ctx.restore();
 
+        // ctx.beginPath();
+        // ctx.moveTo(sensor.posx, sensor.posy);
+        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
+        // ctx.stroke();
+        // ctx.restore();
+
+        ctx.strokeStyle = "rgba(98, 252, 178, 0.3)";
+        ctx.fillStyle = "rgba(98, 252, 178, 0.3)";
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r * Math.sin(sensor.anglerad + angle + errorValue));
+        //shity line
+        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue,);
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
-
-        ctx.beginPath();
-        ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r * Math.sin(sensor.anglerad + angle - errorValue));
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.beginPath();
-        ctx.moveTo(sensor.posx, sensor.posy);
-
-        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue);
-        ctx.stroke();
-        ctx.restore();
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
     }
 }
 
@@ -72,7 +77,7 @@ function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
     a = sensor.angle;
-
+    
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, 2 * Math.PI);
@@ -99,7 +104,8 @@ function postMove() {
                 const response = JSON.parse(this.responseText);
                 response.data.forEach(cameraData => {
                     const angle = (Math.PI / 180) * cameraData.angle;
-                    drawDetectionArea(cameraData.id, cameraData.signal, angle)
+                    drawDetectionArea(cameraData.id, cameraData.signal, angle);
+                    
                 });
             }
         }
@@ -114,18 +120,25 @@ function postMove() {
 
     }));
 }
-
-function redrawCanvas() {
+function  redrawCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawRedPoint();
     sensors.forEach(s => drawSensPos(s));
+    drawRedPoint();
 }
 
-function drawRedPoint() {
-    ctx.beginPath();
-    ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.restore();
+function drawRedPoint(){
+    setTimeout(function(){
+        ctx.beginPath();
+        ctx.strokeStyle = "rgb(255,0,0)";
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
+    },0);
+    
 }
 
 getSensorInformation();
