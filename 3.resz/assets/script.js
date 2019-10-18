@@ -37,12 +37,25 @@ function drawDetectionArea(id, signal, angle) {
         const sensor = sensors[id];
         console.log(sensor);
         ctx.fillStyle = "#de1d1d";
+        const r = 400;
+        const errorValue = 2 * Math.PI / 180;
+
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        const r = 400;
-        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle), sensor.posy + r * Math.sin(sensor.anglerad + angle));
-        //This is line isn't working as intended.
-        //ctx.arc(sensor.posx, sensor.posy, 90, sensor.angle + angle, Math.PI * 180);
+        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.moveTo(sensor.posx, sensor.posy);
+        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.moveTo(sensor.posx, sensor.posy);
+        //shity line
+        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, 2*errorValue);
         ctx.stroke();
         ctx.restore();
     }
