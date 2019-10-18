@@ -12,7 +12,6 @@ function getSensorInformation() {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
-                console.log(sensors);
                 sensors.forEach(sensor => {
                     drawSensPos(sensor);
                     writeSensPos(sensor);
@@ -34,32 +33,33 @@ function showFOV() {
 
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
-        const sensor = sensors[id];
-        console.log(sensor);
-        ctx.fillStyle = "#de1d1d";
         const r = 400;
+        const sensor = sensors[id];
         const errorValue = 2 * Math.PI / 180;
 
+        ctx.fillStyle = "#de1d1d";
+
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
+        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r * Math.sin(sensor.anglerad + angle + errorValue));
         ctx.stroke();
         ctx.restore();
 
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
+        ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r * Math.sin(sensor.anglerad + angle - errorValue));
         ctx.stroke();
         ctx.restore();
 
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        //shity line
-        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, 2*errorValue);
+
+        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue);
         ctx.stroke();
         ctx.restore();
     }
 }
+
 function writeSensPos(sensor) {
     id = sensor.ID;
     x = sensor.posx;
@@ -67,23 +67,22 @@ function writeSensPos(sensor) {
 
     document.getElementById(senPos[id]).innerText = `X: ${x} Y: ${y}`;
 }
+
 function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
     a = sensor.angle;
 
-    console.log(`${x} ${y} ${a}`);
-
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, 2 * Math.PI);
     ctx.stroke();
-    //ctx.rotate(a);
     ctx.restore();
 }
 
 let moveGlobalx = 0;
 let moveGlobaly = 0;
+
 function move(event) {
     const area = canvas.getBoundingClientRect();
     moveGlobalx = event.clientX - area.left;
@@ -91,13 +90,13 @@ function move(event) {
     postMove();
     redrawCanvas();
 }
+
 function postMove() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
-                console.log(response)
                 response.data.forEach(cameraData => {
                     const angle = (Math.PI / 180) * cameraData.angle;
                     drawDetectionArea(cameraData.id, cameraData.signal, angle)
@@ -128,7 +127,8 @@ function drawRedPoint() {
     ctx.stroke();
     ctx.restore();
 }
-postMove();
+
 getSensorInformation();
 
+let fov = false;
 let sensors;
