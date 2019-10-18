@@ -1,12 +1,9 @@
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 
-document.getElementById('fov').addEventListener("click", showFOV)
+const sens = ["'s1pos'", "'s2pos'", "'s3pos'", "'s4pos'"];
 
-const s1 = document.getElementById('sensor1pos');
-const s2 = document.getElementById('sensor2pos');
-const s3 = document.getElementById('sensor3pos');
-const s4 = document.getElementById('sensor4pos');
+document.getElementById('fov').addEventListener("click", showFOV)
 
 function getSensorInformation() {
     var xhr = new XMLHttpRequest();
@@ -16,7 +13,9 @@ function getSensorInformation() {
                 const response = JSON.parse(this.responseText);
                 sensors = response.data;
                 console.log(sensors);
-                drawSensPos(sensors);
+                sensors.forEach(sensor => {
+                    drawSensPos(sensor);
+                });
             }
         }
     };
@@ -28,32 +27,39 @@ function getSensorInformation() {
 }
 
 function showFOV() {
-    console.log("Megnyomtad");
+    console.log('Megnyomtad');
 }
-
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
+        const sensor = sensors[id];
+        ctx.fillStyle = "#de1d1d";
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(sensors[id].posx, sensors[id].posy);
+        ctx.moveTo(sensor.posx, sensor.posy);
+        //This is line isn't working as intended.
+        //ctx.arc(sensor.posx, sensor.posy, 400, sensor.angle + angle, Math.PI/180);
         ctx.stroke();
+        ctx.restore();
     }
 }
 
-function drawSensPos(sensors) {
-    for (var i = 0; i < sensors.length; i++) {
-        x = sensors[i].posx;
-        y = sensors[i].posy;
-        a = sensors[i].angle;
+function drawSensPos(sensor) {
+    x = sensor.posx;
+    y = sensor.posy;
+    a = sensor.angle;
 
-        console.log(`${x} ${y} ${a}`);
+    console.log(`${x} ${y} ${a}`);
 
-        ctx.fillStyle = "#de1d1d";
-        //x, y, radius, 0 hogy teljes kört rajzoljon
-        ctx.arc(x, y, 40, 0, 2 * Math.PI);
+    ctx.fillStyle = "#de1d1d";
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, 2 * Math.PI);
+    ctx.stroke();
+    //ctx.rotate(a);
+    ctx.restore();
+}
 
-        ctx.rotate(a);
-        ctx.restore();
+function writePosInformations(x, y) {
+    for (var i in sens) {
+        document.getElementById(i).innerText = "teszt";
     }
 }
 
@@ -63,10 +69,9 @@ function move(event) {
     const area = canvas.getBoundingClientRect();
     moveGlobalx = event.clientX - area.left;
     moveGlobaly = event.clientY - area.top;
-    console.log(`Coords: ${moveGlobalx} ${moveGlobaly}`);
     postMove();
+    drawRedPoint();
 }
-
 function postMove() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -74,7 +79,10 @@ function postMove() {
             if (this.status == 200) {
                 const response = JSON.parse(this.responseText);
                 console.log(response)
-                drawDetectionArea(response.id, response.signal, response.angle);
+                response.data.forEach(cameraData => {
+                    const angle = (Math.PI / 180) * cameraData.angle;
+                    drawDetectionArea(cameraData.id, cameraData.signal, angle)
+                });
             }
         }
     };
@@ -89,12 +97,11 @@ function postMove() {
     }));
 }
 function drawRedPoint(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+    ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
     ctx.stroke();
 }
-
-drawRedPoint();
 postMove();
 getSensorInformation();
 
