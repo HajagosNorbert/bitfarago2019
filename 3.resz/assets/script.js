@@ -31,24 +31,30 @@ function showFOV() {
 }
 function drawDetectionArea(id, signal, angle) {
     if (signal) {
+        
         const sensor = sensors[id];
+        console.log(sensor);
         ctx.fillStyle = "#de1d1d";
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
+        const r = 400;
+        ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle), sensor.posy + r*Math.sin(sensor.anglerad + angle));
         //This is line isn't working as intended.
         //ctx.arc(sensor.posx, sensor.posy, 400, sensor.angle + angle, Math.PI/180);
         ctx.stroke();
         ctx.restore();
     }
 }
-
+function redrawCanvas(){
+    
+}
 function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
     a = sensor.angle;
-
+    
     console.log(`${x} ${y} ${a}`);
-
+    
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 32, 0, 2 * Math.PI);
@@ -92,7 +98,7 @@ function postMove() {
         version: '1',
         posx: `${moveGlobalx}`,
         posy: `${moveGlobaly}`
-
+        
     }));
 }
 
