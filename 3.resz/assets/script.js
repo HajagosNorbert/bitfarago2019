@@ -43,13 +43,38 @@ function postMove() {
 
     }));
 }
+function getUnknownPosSensInformation() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.status == 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+                redrawCanvas();
+                response.data.forEach(cameraData => {
+                    const angle = (Math.PI / 180) * cameraData.angle;
+                    drawDetectionArea(cameraData.id, cameraData.signal, angle);
+
+                });
+            }
+        }
+    };
+    xhr.open('POST', 'http://bitkozpont.mik.uni-pannon.hu/Vigyazz3SensorData.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(JSON.stringify({
+        request: 'sensordata',
+        version: '2'
+    }));
+}
 
 function move(event) {
-    const area = canvas.getBoundingClientRect();
-    moveGlobalx = event.clientX - area.left;
-    moveGlobaly = event.clientY - area.top;
-    postMove();
-    redrawCanvas();
+    if(isVersion1){
+        const area = canvas.getBoundingClientRect();
+        moveGlobalx = event.clientX - area.left;
+        moveGlobaly = event.clientY - area.top;
+        postMove();
+        redrawCanvas();
+    }
 }
 
 function writeSensPos(sensor) {
@@ -66,6 +91,17 @@ function toggleFOV() {
     redrawCanvas();
 }
 
+function changeVersion(){
+    moveGlobalx = 0;
+    moveGlobaly = 0;
+    isVersion1 = !isVersion1;
+    redrawCanvas();
+    if (isVersion1){
+        document.getElementById("ver").innerText = "1";
+    } else {
+        document.getElementById("ver").innerText = "2";
+    }
+}
 function drawSensFov(sensor) {
     const r = 400;
     const sideAngle = Math.PI / 4;
@@ -97,8 +133,9 @@ function drawDetectionArea(id, signal, angle) {
         ctx.restore();
         ctx.strokeStyle = "black";
         ctx.fillStyle = "black";
-
-        drawRedPoint();
+        if(isVersion1){
+            drawRedPoint();
+        }
     }
 }
 
@@ -122,7 +159,9 @@ function redrawCanvas() {
             drawSensFov(s);
         }
     });
-    drawRedPoint();
+    if(isVersion1){
+        drawRedPoint();
+    }
 }
 
 function drawRedPoint() {
