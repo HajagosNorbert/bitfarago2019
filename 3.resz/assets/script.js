@@ -69,6 +69,8 @@ function toggleFOV() {
 }
 
 function changeVersion(){
+    moveGlobalx = 0;
+    moveGlobaly = 0;
     isVersion1 = !isVersion1;
     redrawCanvas();
 }
