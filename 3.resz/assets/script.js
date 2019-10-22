@@ -146,6 +146,13 @@ function drawRedPoint() {
     ctx.fillStyle = "black";
 }
 
+function gridHundred(x, y) {
+    ctx.beginPath();
+    ctx.fillStyle = "#066666";
+    ctx.fillRect(x * 100, y * 100, 100, 100);
+    ctx.stroke();
+}
+
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
 

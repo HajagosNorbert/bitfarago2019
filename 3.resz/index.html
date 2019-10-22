@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +7,12 @@
     <title>Szenzorok</title>
     <link rel="stylesheet" href="assets/styles.css" />
 </head>
-
 <body>
-
     <div>
         <input type="checkbox" id="fov">Látómezők
+        <button type="button" onclick="changeVersion()">
+            Verzió
+        </button>
 
         <p>Szenzorok pozíciója:</p>
         <ul>
@@ -21,16 +21,14 @@
             <li>Szenzor #3 - <span id="s3pos"></span></li>
             <li>Szenzor #4 - <span id="s4pos"></span></li>
         </ul>
-
+        
         <p>Segédlet: <br>
-            A petty oda megy, ahova kattintasz.  
+            A petty oda megy, ahova kattintasz.
         </p>
     </div>
 
     <canvas id="cnvs" height="500" width="500" onclick="move(event)"></canvas>
 
     <script src="assets/script.js"></script>
-
 </body>
-
 </html>
