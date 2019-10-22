@@ -28,7 +28,7 @@ function postMove() {
                 response.data.forEach(cameraData => {
                     const angle = (Math.PI / 180) * cameraData.angle;
                     drawDetectionArea(cameraData.id, cameraData.signal, angle);
-                    
+
                 });
             }
         }
@@ -67,16 +67,16 @@ function toggleFOV() {
     redrawCanvas();
 }
 
-function drawSensFov(sensor){
+function drawSensFov(sensor) {
     const r = 400;
     const sideAngle = Math.PI / 4;
 
     ctx.beginPath();
     ctx.moveTo(sensor.posx, sensor.posy);
-    ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + sideAngle), sensor.posy + r*Math.sin(sensor.anglerad + sideAngle));
+    ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad + sideAngle), sensor.posy + r * Math.sin(sensor.anglerad + sideAngle));
     ctx.moveTo(sensor.posx, sensor.posy);
-    ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad - sideAngle), sensor.posy + r*Math.sin(sensor.anglerad - sideAngle));
-    ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad - sideAngle , sensor.anglerad + sideAngle);
+    ctx.lineTo(sensor.posx + r * Math.cos(sensor.anglerad - sideAngle), sensor.posy + r * Math.sin(sensor.anglerad - sideAngle));
+    ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad - sideAngle, sensor.anglerad + sideAngle);
     ctx.stroke();
     ctx.restore();
 }
@@ -88,23 +88,11 @@ function drawDetectionArea(id, signal, angle) {
         const r = 400;
         const errorValue = 2 * Math.PI / 180;
 
-        // ctx.beginPath();
-        // ctx.moveTo(sensor.posx, sensor.posy);
-        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle + errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle + errorValue));
-        // ctx.stroke();
-        // ctx.restore();
-
-        // ctx.beginPath();
-        // ctx.moveTo(sensor.posx, sensor.posy);
-        // ctx.lineTo(sensor.posx + r*Math.cos(sensor.anglerad + angle - errorValue), sensor.posy + r*Math.sin(sensor.anglerad + angle - errorValue));
-        // ctx.stroke();
-        // ctx.restore();
-
         ctx.strokeStyle = "rgba(98, 252, 178, 0.5)";
         ctx.fillStyle = "rgba(98, 252, 178, 0.5)";
         ctx.beginPath();
         ctx.moveTo(sensor.posx, sensor.posy);
-        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue,);
+        ctx.arc(sensor.posx, sensor.posy, r, sensor.anglerad + angle - errorValue, sensor.anglerad + angle + errorValue);
         ctx.fill();
         ctx.stroke();
         ctx.restore();
@@ -119,7 +107,7 @@ function drawSensPos(sensor) {
     x = sensor.posx;
     y = sensor.posy;
     a = sensor.angle;
-    
+
     ctx.fillStyle = "#de1d1d";
     ctx.beginPath();
     ctx.arc(x, y, 15, 0, 2 * Math.PI);
@@ -127,38 +115,42 @@ function drawSensPos(sensor) {
     ctx.restore();
 }
 
-function redrawCanvas(){
+function redrawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     sensors.forEach(s => {
         drawSensPos(s)
-        if(visibleFOV){
+        if (visibleFOV) {
             drawSensFov(s);
         }
     });
     drawRedPoint();
 }
 
-function drawRedPoint(){
-    setTimeout(function(){
-        ctx.beginPath();
-        ctx.strokeStyle = "rgb(255,0,0)";
-        ctx.fillStyle = "rgb(255,0,0)";
-        ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.stroke();
-        ctx.restore();
-        ctx.strokeStyle = "black";
-        ctx.fillStyle = "black";
-    },0);
-    
+function drawRedPoint() {
+    ctx.beginPath();
+    ctx.strokeStyle = "rgb(255,0,0)";
+    ctx.fillStyle = "rgb(255,0,0)";
+    ctx.arc(moveGlobalx, moveGlobaly, 5, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "black";
 }
+
 const canvas = document.getElementById('cnvs');
 const ctx = canvas.getContext('2d');
+
 const senPos = ["s1pos", "s2pos", "s3pos", "s4pos"];
+
 let visibleFOV = false;
+
 let sensors;
+
 let moveGlobalx = 0;
 let moveGlobaly = 0;
+
+let isVersion1 = true;
 
 document.getElementById('fov').addEventListener("click", toggleFOV)
 getSensorInformation();
