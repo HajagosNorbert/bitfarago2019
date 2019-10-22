@@ -43,6 +43,7 @@ function postMove() {
 
     }));
 }
+
 function getUnknownPosSensInformation() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -68,7 +69,7 @@ function getUnknownPosSensInformation() {
 }
 
 function move(event) {
-    if(isVersion1){
+    if (isVersion1) {
         const area = canvas.getBoundingClientRect();
         moveGlobalx = event.clientX - area.left;
         moveGlobaly = event.clientY - area.top;
@@ -91,17 +92,21 @@ function toggleFOV() {
     redrawCanvas();
 }
 
-function changeVersion(){
+function changeVersion() {
     moveGlobalx = 0;
     moveGlobaly = 0;
     isVersion1 = !isVersion1;
     redrawCanvas();
-    if (isVersion1){
+    if (isVersion1) {
         document.getElementById("ver").innerText = "1";
+        document.getElementById("changeVersionPlaceholder").innerHTML = ``;
     } else {
         document.getElementById("ver").innerText = "2";
+        document.getElementById("changeVersionPlaceholder").innerHTML = `<button type="button" onclick="getUnknownPosSensInformation()">Lekérés</button>`;
     }
+
 }
+
 function drawSensFov(sensor) {
     const r = 400;
     const sideAngle = Math.PI / 4;
@@ -133,7 +138,7 @@ function drawDetectionArea(id, signal, angle) {
         ctx.restore();
         ctx.strokeStyle = "black";
         ctx.fillStyle = "black";
-        if(isVersion1){
+        if (isVersion1) {
             drawRedPoint();
         }
     }
@@ -159,7 +164,7 @@ function redrawCanvas() {
             drawSensFov(s);
         }
     });
-    if(isVersion1){
+    if (isVersion1) {
         drawRedPoint();
     }
 }
