@@ -45,11 +45,13 @@ function postMove() {
 }
 
 function move(event) {
-    const area = canvas.getBoundingClientRect();
-    moveGlobalx = event.clientX - area.left;
-    moveGlobaly = event.clientY - area.top;
-    postMove();
-    redrawCanvas();
+    if(isVersion1){
+        const area = canvas.getBoundingClientRect();
+        moveGlobalx = event.clientX - area.left;
+        moveGlobaly = event.clientY - area.top;
+        postMove();
+        redrawCanvas();
+    }
 }
 
 function writeSensPos(sensor) {
@@ -61,12 +63,15 @@ function writeSensPos(sensor) {
 }
 
 function toggleFOV() {
-    console.log('Megnyomtad');
     visibleFOV = !visibleFOV;
     postMove();
     redrawCanvas();
 }
 
+function changeVersion(){
+    isVersion1 = !isVersion1;
+    redrawCanvas();
+}
 function drawSensFov(sensor) {
     const r = 400;
     const sideAngle = Math.PI / 4;
@@ -98,8 +103,9 @@ function drawDetectionArea(id, signal, angle) {
         ctx.restore();
         ctx.strokeStyle = "black";
         ctx.fillStyle = "black";
-
-        drawRedPoint();
+        if(isVersion1){
+            drawRedPoint();
+        }
     }
 }
 
@@ -123,7 +129,9 @@ function redrawCanvas() {
             drawSensFov(s);
         }
     });
-    drawRedPoint();
+    if(isVersion1){
+        drawRedPoint();
+    }
 }
 
 function drawRedPoint() {
@@ -152,5 +160,5 @@ let moveGlobaly = 0;
 
 let isVersion1 = true;
 
-document.getElementById('fov').addEventListener("click", toggleFOV)
+document.getElementById('fov').addEventListener("click", toggleFOV);
 getSensorInformation();
