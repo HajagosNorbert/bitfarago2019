@@ -182,9 +182,10 @@ function drawRedPoint() {
 }
 
 function gridHundred(x, y) {
+    redrawCanvas();
     ctx.beginPath();
-    ctx.fillStyle = "#066666";
-    ctx.fillRect(x * 100, y * 100, 100, 100);
+    ctx.fillStyle = "#bab513";
+    ctx.strokeRect(x * 100, y * 100, 100, 100);
     ctx.stroke();
 }
 
